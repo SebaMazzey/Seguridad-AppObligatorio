@@ -1,11 +1,11 @@
-using DemoSeguridad.Data.Entities;
 using System;
-using System.Collections.Generic;
 
 namespace DemoSeguridad.Models
 {
-    public class HomeModel
+    public class ErrorViewModel
     {
-        public ICollection<Role> Roles { get; set; }
+        public string RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }

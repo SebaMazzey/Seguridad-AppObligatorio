@@ -1,14 +1,12 @@
-﻿@model HomeModel
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <h2>Roles</h2>
-    @foreach (var role in Model.Roles)
-    {
-        <p>@role.Name</p>
-    }
+    <h1 class="display-4">Bienvenido!</h1>
+    <p style="text-align:justify">
+        Esta es la página de bienvenida de la aplicación realizada como Demo para la clase de seguridad.<br />
+        Para poder ingresar a la aplicación haz click en la opcion "Log In" en la barra. <br />
+        En caso de no tener usuario dirigare al area de "Registrarse"
+    </p>
 </div>

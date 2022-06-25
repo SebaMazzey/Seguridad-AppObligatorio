@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DemoSeguridad.Data.Entities
@@ -6,7 +7,7 @@ namespace DemoSeguridad.Data.Entities
     {
         [Key]
         public string Email { get; set; }
-        public string HashPassword { get; set; }
+        public Byte[] HashPassword { get; set; }
         public string HashSalt { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

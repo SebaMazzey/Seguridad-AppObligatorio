@@ -47,6 +47,8 @@ namespace DemoSeguridad.Data
 
             modelBuilder.Entity<Book>(entity =>
             {
+                entity.Property(e => e.AuthorId).HasColumnName("Author_Id");
+
                 entity.HasOne(b => b.Author)
                       .WithMany(a => a.Books)
                       .HasForeignKey(b => b.AuthorId)

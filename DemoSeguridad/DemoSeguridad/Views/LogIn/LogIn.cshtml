@@ -1,0 +1,64 @@
+﻿@model UserLoginModel
+
+@{
+    ViewData["Title"] = "LogIn";
+}
+
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("LogIn", "LogIn", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="box">
+        <table>
+            <tr>
+                <td valign="top">
+                    @Html.LabelFor(model => model.Email)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Email)
+                    <div style="height: 20px; color: red">
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    @Html.LabelFor(model => model.Password)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Password)
+                    <div style="height: 20px; color: red">
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="submit" value="LogIn" />
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+<style>
+    .h2 {
+        text-align: center;
+    }
+
+    .box {
+        border: solid 1px #ccc;
+        padding: 30px 0 30px 30px;
+        border-radius: 5px;
+        width: 325px;
+        margin: auto;
+        display: table;
+    }
+
+    .topnav-right {
+        float: right;
+    }
+</style>

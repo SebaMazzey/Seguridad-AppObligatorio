@@ -1,0 +1,56 @@
+﻿@model BookCreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Agregar Libro</h1>
+
+<h4>Libro</h4>
+<hr />
+@using (Html.BeginForm("Create", "Book", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-md-7">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AuthorName)
+                    @Html.EditorFor(model => model.AuthorName)
+                    <div style="height: 20px; color: red">
+                        @Html.ValidationMessageFor(model => model.AuthorName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title)
+                    @Html.EditorFor(model => model.Title)
+                    <div style="height: 20px; color: red">
+                        @Html.ValidationMessageFor(model => model.Title)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description)
+                    @Html.EditorFor(model => model.Description)
+                    <div style="height: 20px; color: red">
+                        @Html.ValidationMessageFor(model => model.Description)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Content)
+                    @Html.EditorFor(model => model.Content)
+                    <div style="height: 20px; color: red">
+                        @Html.ValidationMessageFor(model => model.Content)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Agregar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <a asp-action="BookList">Volver al Listado</a>
+    </div>
+}

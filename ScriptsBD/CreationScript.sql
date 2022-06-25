@@ -17,7 +17,7 @@ CREATE TABLE `Permissions` (
 CREATE TABLE `Users` (
   `Email` varchar(50),
   `Hash_password` binary(60),
-  `Hash_salt` varchar(20),
+  `Hash_salt` varchar(50),
   `First_name` varchar(50),
   `Last_name` varchar(50),
   `Role_name` varchar(50),
@@ -65,3 +65,19 @@ INSERT INTO DemoSeguridad.`RolesPermissions` (Role_Name, Permission_Name) VALUES
 ('Administrador', 'Libros.Agregar'),
 ('Administrador', 'Libros.Eliminar'),
 ('Lector', 'Libros.Leer');
+
+INSERT INTO DemoSeguridad.`Authors` (First_name, Last_name) VALUES
+('William', 'Shakespeare'),
+('Charles', 'Dickens'),
+('J. K.', 'Rowling');
+
+INSERT INTO DemoSeguridad.`Books` (Title, Description, Author_Id, Content) VALUES
+('The Merchant of Venice', 'Description of The Merchant of Venice', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at sapien erat. Donec vitae convallis nunc. Nam pharetra, lacus eu volutpat fermentum, quam felis vulputate tellus, et maximus lectus leo eget enim. Vestibulum ac massa orci. Morbi a odio tristique, ullamcorper ante vitae, dictum mi. Donec aliquam tincidunt orci vel pretium. Etiam mi lectus, maximus vitae scelerisque non, dapibus ac dui.'),
+('Romeo y Julieta', 'Descripción de Romeo y Julieta', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at sapien erat. Donec vitae convallis nunc. Nam pharetra, lacus eu volutpat fermentum, quam felis vulputate tellus, et maximus lectus leo eget enim. Vestibulum ac massa orci. Morbi a odio tristique, ullamcorper ante vitae, dictum mi. Donec aliquam tincidunt orci vel pretium. Etiam mi lectus, maximus vitae scelerisque non, dapibus ac dui.'),
+('Oliver Twist', 'Description de Oliver Twist', 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at sapien erat. Donec vitae convallis nunc. Nam pharetra, lacus eu volutpat fermentum, quam felis vulputate tellus, et maximus lectus leo eget enim. Vestibulum ac massa orci. Morbi a odio tristique, ullamcorper ante vitae, dictum mi. Donec aliquam tincidunt orci vel pretium. Etiam mi lectus, maximus vitae scelerisque non, dapibus ac dui.'),
+('Harry Potter y la piedra filosofal ', 'Description de Harry Potter y la piedra filosofal ', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at sapien erat. Donec vitae convallis nunc. Nam pharetra, lacus eu volutpat fermentum, quam felis vulputate tellus, et maximus lectus leo eget enim. Vestibulum ac massa orci. Morbi a odio tristique, ullamcorper ante vitae, dictum mi. Donec aliquam tincidunt orci vel pretium. Etiam mi lectus, maximus vitae scelerisque non, dapibus ac dui.');
+
+INSERT INTO DemoSeguridad.`Users` (Email, First_name, Last_name, Role_Name, Hash_password, Hash_salt) VALUES
+('admin@gmail.com', 'Admin', 'Admin', 'Administrador', X'243261243131244A505741732F4E61555558676A6F6C7947657657732E53523143674A674A43693568476A7869586956725259787879365675654965', 'yCLta1cN4ydZiFyvPXGm3KD/ge58TfR9Eckaoqj1'),
+('johndoe@gmail.com', 'John', 'Doe', 'Lector', X'243261243131246F323561775A4530373244446759695243364643734F796C586F7735765965574C32536B4D57505442316931694F46533678394861', 'bQjkpKsfgUhzQ783GVEQMVfu/4urlb+AHViD/MuR');
+

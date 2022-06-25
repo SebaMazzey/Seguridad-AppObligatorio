@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+@model BookListViewModel
+
+@{
+    ViewData["Title"] = "Book List";
+}
+
+<h1>Lista de Libros</h1>
+
+<p>
+    @if (@Accessor.HttpContext.Session.GetString("Rol") == "Administrador")
+    {
+        @Html.ActionLink("Agregar libro", "Create")
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Libro</th>
+            <th>Autor</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>
+                    <a> @item.Title </a>
+                </td>
+                <td>
+                    <a> @item.Author.FirstName @item.Author.LastName</a>
+                </td>
+                <td>
+                    @if (@Accessor.HttpContext.Session.GetString("Rol") == "Administrador")
+                    {
+                        @Html.ActionLink(
+                            "Eliminar",
+                            "Delete",
+                            new { id = item.Id },
+                            new { onclick = "return confirm('Esta seguro que desea eliminar este libro?');" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

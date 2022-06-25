@@ -1,5 +1,6 @@
 using DemoSeguridad.Data;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace DemoSeguridad.Authorization
 {
@@ -7,7 +8,8 @@ namespace DemoSeguridad.Authorization
     {
         public AuthorizeAttribute(params string[] permissions) : base(typeof(AuthorizeFilter))
         {
-            Arguments = new object[] {new AuthorizeFilter(permissions) };
+            if (permissions.Length != 0)
+                this.Arguments = new object[] { permissions };
         }
     }
 }
