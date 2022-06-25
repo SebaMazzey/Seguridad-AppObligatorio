@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+ mysql-demo:
+  image: mysql:5.6
+  environment:
+    MYSQL_ROOT_PASSWORD: root-password
+  ports:
+    - 3306:3306
+  volumes:
+    - ./ScriptsBD/:/docker-entrypoint-initdb.d/
