@@ -23,24 +23,15 @@ namespace DemoSeguridad.Authorization
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            // Get DB context
-            var dbContext = context.HttpContext
-                .RequestServices
-                .GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
-
             // Get current user
-            var userEmail = context.HttpContext.Session.GetObjectFromJson<UserViewModel>("User").Email;
-            var user = dbContext.Users.Include(u => u.Role)
-                                        .ThenInclude(r => r.RolePermissions)
-                                            .ThenInclude(rp => rp.Permission)
-                                      .FirstOrDefault(user => user.Email == userEmail);
+            var user = context.HttpContext.Session.GetObjectFromJson<UserViewModel>("User");
 
             if (user != null)
             {
                 if(user.Role != null)
                 {
                     // Get user permissions
-                    var userPermissions = user.Role.RolePermissions.Select(rp => rp.Permission.Name).ToList();
+                    var userPermissions = user.Role.Permissions.Select(p => p.Name).ToList();
                     // Check if user has all required permissions
                     if (permissions.All(permission => userPermissions.Contains(permission)))
                         return;

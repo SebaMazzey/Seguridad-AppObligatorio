@@ -10,7 +10,6 @@ using System.Linq;
 
 namespace DemoSeguridad.Controllers
 {
-    [Authorize]
     public class BookController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -22,6 +21,7 @@ namespace DemoSeguridad.Controllers
             _context = context;
         }
 
+        [Authorize]
         public IActionResult BookList()
         {
             var books = _context.Books.Include(book => book.Author).ToList();

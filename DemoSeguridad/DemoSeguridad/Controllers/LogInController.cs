@@ -81,6 +81,8 @@ namespace DemoSeguridad.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return View(registerModel);
                 // Sanitizar las variables aca
                 var firstName = registerModel.FirstName;
                 var lastName = registerModel.LastName;
