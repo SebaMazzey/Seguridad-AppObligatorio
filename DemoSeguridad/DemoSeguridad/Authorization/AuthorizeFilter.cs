@@ -1,4 +1,6 @@
 using DemoSeguridad.Data;
+using DemoSeguridad.Models;
+using DemoSeguridad.Session;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -27,7 +29,7 @@ namespace DemoSeguridad.Authorization
                 .GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
 
             // Get current user
-            var userEmail = context.HttpContext.Session.GetString("Email");
+            var userEmail = context.HttpContext.Session.GetObjectFromJson<UserViewModel>("User").Email;
             var user = dbContext.Users.Include(u => u.Role)
                                         .ThenInclude(r => r.RolePermissions)
                                             .ThenInclude(rp => rp.Permission)

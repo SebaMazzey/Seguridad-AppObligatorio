@@ -1,5 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using DemoSeguridad.Session
 @inject IHttpContextAccessor Accessor
+
+@{
+    var user = Accessor.HttpContext.Session.GetObjectFromJson<UserViewModel>("User");
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +29,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                        @if (!String.IsNullOrEmpty(@Accessor.HttpContext.Session.GetString("Email")))
+                        @if (user != null && user.Role != null && user.Role.Permissions.Any(p => p.Name == "Libros.Leer"))
                         {
                             <li>
                                 <a class="nav-link text-dark" asp-controller="Book" asp-action="BookList">Libros</a>
@@ -32,7 +37,7 @@
                         }
                     </ul>
                     <ul class="navbar-nav ml-auto">
-                        @if (String.IsNullOrEmpty(@Accessor.HttpContext.Session.GetString("Email")))
+                        @if (user == null)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="LogIn" asp-action="LogIn">Log In</a>

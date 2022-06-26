@@ -1,15 +1,17 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using DemoSeguridad.Session
 @inject IHttpContextAccessor Accessor
 @model BookListViewModel
 
 @{
     ViewData["Title"] = "Book List";
+    var user = Accessor.HttpContext.Session.GetObjectFromJson<UserViewModel>("User");
 }
 
 <h1>Lista de Libros</h1>
 
 <p>
-    @if (@Accessor.HttpContext.Session.GetString("Rol") == "Administrador")
+    @if (user != null && user.Role != null && user.Role.Permissions.Any(p => p.Name == "Libros.Agregar"))
     {
         @Html.ActionLink("Agregar libro", "Create")
     }
@@ -30,16 +32,22 @@
                     <a> @item.Title </a>
                 </td>
                 <td>
-                    <a> @item.Author.FirstName @item.Author.LastName</a>
+                    <a> @item.AuthorName</a>
                 </td>
                 <td>
-                    @if (@Accessor.HttpContext.Session.GetString("Rol") == "Administrador")
+                    @if (user != null && user.Role != null && user.Role.Permissions.Any(p => p.Name == "Libros.Eliminar"))
                     {
                         @Html.ActionLink(
                             "Eliminar",
                             "Delete",
                             new { id = item.Id },
                             new { onclick = "return confirm('Esta seguro que desea eliminar este libro?');" })
+                    }
+                </td>
+                <td>
+                    @if (user != null && user.Role != null && user.Role.Permissions.Any(p => p.Name == "Libros.Leer"))
+                    {
+                        @Html.ActionLink("Leer", "Details", new { id = item.Id })
                     }
                 </td>
             </tr>

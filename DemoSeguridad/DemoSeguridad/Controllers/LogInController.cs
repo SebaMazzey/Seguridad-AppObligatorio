@@ -1,11 +1,13 @@
 using DemoSeguridad.Data;
 using DemoSeguridad.Data.Entities;
 using DemoSeguridad.Models;
+using DemoSeguridad.Session;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -18,11 +20,13 @@ namespace DemoSeguridad.Controllers
         private readonly ApplicationDbContext _context;
         private readonly string defaultRole = "Lector";
         private const int SALT_LENGHT = 30;
+        private readonly string pepper;
 
-        public LogInController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public LogInController(ILogger<HomeController> logger, ApplicationDbContext context, IConfiguration configuration)
         {
             _logger = logger;
             _context = context;
+            pepper = configuration.GetValue<string>("Pepper");
         }
 
         public IActionResult LogIn()
@@ -42,15 +46,18 @@ namespace DemoSeguridad.Controllers
                 if (!ModelState.IsValid)
                     return View(loginModel);
 
-                var user = _context.Users.FirstOrDefault(user => user.Email == email);
+                // Retrieve user with roles and permission
+                var user = _context.Users.Include(u => u.Role)
+                                            .ThenInclude(r => r.RolePermissions)
+                                                .ThenInclude(rp => rp.Permission)
+                                         .FirstOrDefault(user => user.Email == email);
                 if (user != null)
                 {
                     var hashedPass = Encoding.Default.GetString(user.HashPassword);
                     var a = user.FirstName;
-                    if (BCrypt.Net.BCrypt.Verify(password + user.HashSalt, hashedPass))
+                    if (BCrypt.Net.BCrypt.Verify(password + user.HashSalt + pepper, hashedPass))
                     {
-                        HttpContext.Session.SetString("Email", user.Email);
-                        HttpContext.Session.SetString("Rol", user.RoleName);
+                        HttpContext.Session.SetObjectAsJson("User", ModelConverter.GetUserViewModel(user));
                         return Redirect("/book/bookList");
                     }
                 }
@@ -105,8 +112,11 @@ namespace DemoSeguridad.Controllers
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
 
-                HttpContext.Session.SetString("Email", newUser.Email);
-                HttpContext.Session.SetString("Rol", defaultRole);
+                // Get role with permissions to store in session
+                var role = _context.Roles.Include(r => r.RolePermissions).ThenInclude(rp => rp.Permission).FirstOrDefault(r => r.Name == defaultRole);
+                newUser.Role = role;
+
+                HttpContext.Session.SetObjectAsJson("User", ModelConverter.GetUserViewModel(newUser));
                 return Redirect("/book/bookList");
             }
             catch (Exception)
@@ -122,12 +132,6 @@ namespace DemoSeguridad.Controllers
             return Redirect("/home/index");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
         private static string GenerateSalt()
         {
             var random = new RNGCryptoServiceProvider();
@@ -137,9 +141,9 @@ namespace DemoSeguridad.Controllers
             return Convert.ToBase64String(buffer);
         }
 
-        private static Byte[] HashPassword(string password, string salt)
+        private Byte[] HashPassword(string password, string salt)
         {
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password + salt);
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password + salt + pepper);
             var passwordBytes = Encoding.Default.GetBytes(passwordHash);
             return passwordBytes;
         }

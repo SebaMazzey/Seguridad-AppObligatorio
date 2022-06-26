@@ -78,6 +78,8 @@ INSERT INTO DemoSeguridad.`Books` (Title, Description, Author_Id, Content) VALUE
 ('Harry Potter y la piedra filosofal ', 'Description de Harry Potter y la piedra filosofal ', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at sapien erat. Donec vitae convallis nunc. Nam pharetra, lacus eu volutpat fermentum, quam felis vulputate tellus, et maximus lectus leo eget enim. Vestibulum ac massa orci. Morbi a odio tristique, ullamcorper ante vitae, dictum mi. Donec aliquam tincidunt orci vel pretium. Etiam mi lectus, maximus vitae scelerisque non, dapibus ac dui.');
 
 INSERT INTO DemoSeguridad.`Users` (Email, First_name, Last_name, Role_Name, Hash_password, Hash_salt) VALUES
-('admin@gmail.com', 'Admin', 'Admin', 'Administrador', X'243261243131244A505741732F4E61555558676A6F6C7947657657732E53523143674A674A43693568476A7869586956725259787879365675654965', 'yCLta1cN4ydZiFyvPXGm3KD/ge58TfR9Eckaoqj1'),
-('johndoe@gmail.com', 'John', 'Doe', 'Lector', X'243261243131246F323561775A4530373244446759695243364643734F796C586F7735765965574C32536B4D57505442316931694F46533678394861', 'bQjkpKsfgUhzQ783GVEQMVfu/4urlb+AHViD/MuR');
+('johndoe@gmail.com', 'John', 'Doe', 'Lector', X'243261243131244263775569634448335850557065754E67487062362E4456624C4859392F617069746E6C6241446E7A314C3176394147574D307057', 'Hc9dKfkJLxgO3alwZadenl4nnizOZscZsmE6cHeG'),
+('admin@gmail.com', 'Admin', 'Admin', 'Administrador', X'2432612431312462714553736962637539383879646B414349386559754831506D2E37717A5A45616C55714D414248797642635245546A6645705553', 'JFcCS5Mz0r9gMseEEnpoV/pgTeh19qZUhyn1pXnh');
+
+
 

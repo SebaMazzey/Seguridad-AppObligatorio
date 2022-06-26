@@ -22,15 +22,10 @@ namespace DemoSeguridad.Controllers
             _context = context;
         }
 
-        [Authorize("Libros.Leer")]
         public IActionResult BookList()
         {
             var books = _context.Books.Include(book => book.Author).ToList();
-            var model = new BookListViewModel
-            {
-                Books = books
-            };
-
+            var model = ModelConverter.GetBookListViewModel(books);
             return View(model);
         }
 
@@ -77,7 +72,7 @@ namespace DemoSeguridad.Controllers
         }
 
         [Authorize("Libros.Eliminar")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(long id)
         {
             if (id < 1)
             {
@@ -87,6 +82,19 @@ namespace DemoSeguridad.Controllers
             _context.Books.Remove(book);
             _context.SaveChanges();
             return RedirectToAction("BookList");
+        }
+
+        [Authorize("Libros.Leer")]
+        public IActionResult Details(long id)
+        {
+            var book = _context.Books.Include(book => book.Author).FirstOrDefault(book => book.Id == id);
+            if (book != null)
+            {
+                return View(ModelConverter.GetBookViewModel(book));
+            } else
+            {
+                return new BadRequestResult();
+            }
         }
     }
 }
